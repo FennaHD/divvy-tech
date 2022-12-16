@@ -4,6 +4,6 @@ import java.util.*
 
 data class RevenueEntry(
     val seq: Int?,
-    val date: Date?,
+    val date: String?,
     val value: Double?
 )
