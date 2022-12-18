@@ -1,8 +1,11 @@
 package com.divvy.screens
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.ClickableText
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.text.AnnotatedString
@@ -22,13 +25,15 @@ fun OverviewScreen(navController: NavController, vm: BusinessViewModel) {
             }
         }
     }
-
-    val businesses = vm.businesses.observeAsState()
-    LazyColumn {
-        items(
-            items = businesses.value ?: listOf(),
-            itemContent = {
-                BusinessHolder(it)
-            })
+    Column {
+        TopAppBar(title = { Text(text = "Businesses")})
+        val businesses = vm.businesses.observeAsState()
+        LazyColumn {
+            items(
+                items = businesses.value ?: listOf(),
+                itemContent = {
+                    BusinessHolder(it)
+                })
+        }
     }
 }
