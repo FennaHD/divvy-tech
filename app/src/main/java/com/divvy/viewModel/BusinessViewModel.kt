@@ -1,12 +1,21 @@
 package com.divvy.viewModel
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
+import androidx.lifecycle.viewModelScope
+import com.divvy.domain.Business
 import com.divvy.service.BusinessRepository
+import kotlinx.coroutines.launch
 
 class BusinessViewModel: ViewModel() {
 
-    val businesses = liveData {
-        emit(BusinessRepository().client.getBusinesses())
+    val businesses = MutableLiveData<List<Business>>(null)
+
+    fun retrieveBusinesses() {
+        viewModelScope.launch {
+            BusinessRepository().client.getBusinesses()?.let {
+                businesses.value = it
+            }
+        }
     }
 }
