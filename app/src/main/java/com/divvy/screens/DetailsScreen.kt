@@ -24,6 +24,7 @@ import com.jaikeerthick.composable_graphs.style.LinearGraphVisibility
 fun DetailsScreen(navController: NavController, viewModel: BusinessViewModel) {
     Column {
         val business = viewModel.selectedBusiness.observeAsState()
+        val distanceToUser = business.value?.location?.distanceToUser?.observeAsState()
         TopAppBar(
             title = { Text(text = business.value?.name.orEmpty()) },
             navigationIcon = {IconButton(onClick = { navController.popBackStack() }) {
@@ -32,6 +33,7 @@ fun DetailsScreen(navController: NavController, viewModel: BusinessViewModel) {
         Text(business.value?.location?.address.orEmpty())
         Text(business.value?.location?.city.orEmpty())
         Text(business.value?.location?.country.orEmpty())
+        Text(distanceToUser?.value?.toString().orEmpty())
         LineGraph(
             xAxisData = business.value?.getXAxis() ?: emptyList(),
             yAxisData = business.value?.getYAxis() ?: emptyList(),

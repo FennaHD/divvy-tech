@@ -1,13 +1,15 @@
 package com.divvy.viewModel
 
+import android.location.Geocoder
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.divvy.domain.Business
 import com.divvy.service.BusinessRepository
+import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.launch
 
-class BusinessViewModel: ViewModel() {
+class BusinessViewModel(private val geocoder: Geocoder): ViewModel() {
 
     val businesses = MutableLiveData<List<Business>>(null)
     val selectedBusiness = MutableLiveData<Business>(null)
@@ -16,6 +18,18 @@ class BusinessViewModel: ViewModel() {
         viewModelScope.launch {
             BusinessRepository().client.getBusinesses()?.let {
                 businesses.value = it
+            }
+        }
+    }
+
+    fun retrieveLocation(business: Business) {
+        // We really only need to set it once, no need to do it everytime we go to details
+        if (business.location?.distanceToUser?.value == null) {
+            val user = LatLng(40.550906, -111.943054)
+            business.location?.fullAddress()?.let {
+                geocoder.getFromLocationName(it, 1).getOrNull(0)?.let {
+                    business.location.setDistanceToUser(user, LatLng(it.latitude, it.longitude))
+                }
             }
         }
     }

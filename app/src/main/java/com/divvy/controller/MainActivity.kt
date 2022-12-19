@@ -1,5 +1,6 @@
 package com.divvy.controller
 
+import android.location.Geocoder
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -14,7 +15,9 @@ import com.divvy.viewModel.BusinessViewModel
 
 class MainActivity : ComponentActivity() {
 
-    val viewModel = BusinessViewModel()
+    val viewModel by lazy {
+        BusinessViewModel(Geocoder(this))
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
