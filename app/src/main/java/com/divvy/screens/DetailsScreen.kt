@@ -29,7 +29,9 @@ fun DetailsScreen(navController: NavController, viewModel: BusinessViewModel) {
             navigationIcon = {IconButton(onClick = { navController.popBackStack() }) {
             Icon(Icons.Filled.ArrowBack, null)
             }})
-        Text("Details Screen")
+        Text(business.value?.location?.address.orEmpty())
+        Text(business.value?.location?.city.orEmpty())
+        Text(business.value?.location?.country.orEmpty())
         LineGraph(
             xAxisData = business.value?.getXAxis() ?: emptyList(),
             yAxisData = business.value?.getYAxis() ?: emptyList(),
