@@ -9,9 +9,11 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.TextStyle
 import androidx.navigation.NavController
 import com.divvy.domain.Business
 import com.divvy.navigation.Screens
+import com.divvy.ui.theme.LIGHT_WHITE
 import com.divvy.viewModel.BusinessViewModel
 
 @Composable
@@ -20,7 +22,7 @@ fun OverviewScreen(navController: NavController, viewModel: BusinessViewModel) {
     @Composable
     fun BusinessHolder(business: Business) {
         business.name?.let {
-            ClickableText(text = AnnotatedString(it)) {
+            ClickableText(text = AnnotatedString(it), style = TextStyle(LIGHT_WHITE)) {
                 viewModel.selectedBusiness.value = business
                 navController.navigate(route = Screens.Details.route)
             }
