@@ -9,10 +9,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.divvy.R
+import com.divvy.ui.theme.*
 import com.divvy.viewModel.BusinessViewModel
+import com.jaikeerthick.composable_graphs.color.LinearGraphColors
 import com.jaikeerthick.composable_graphs.composables.LineGraph
 import com.jaikeerthick.composable_graphs.style.LineGraphStyle
 import com.jaikeerthick.composable_graphs.style.LinearGraphVisibility
@@ -35,6 +38,12 @@ fun DetailsScreen(navController: NavController, viewModel: BusinessViewModel) {
                 visibility = LinearGraphVisibility(
                     isHeaderVisible = true,
                     isCrossHairVisible = true
+                ),
+                colors = LinearGraphColors(
+                    pointColor = POINT_GREEN,
+                    lineColor = ROBINHOOD_GREEN,
+                    clickHighlightColor = MATRIX_GREEN,
+                    fillGradient = Brush.verticalGradient(colors= listOf(ROBINHOOD_GREEN, ROBINHOOD_BLACK))
                 )
             )
         )
