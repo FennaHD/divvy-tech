@@ -10,6 +10,7 @@ import kotlinx.coroutines.launch
 class BusinessViewModel: ViewModel() {
 
     val businesses = MutableLiveData<List<Business>>(null)
+    val selectedBusiness = MutableLiveData<Business>(null)
 
     fun retrieveBusinesses() {
         viewModelScope.launch {

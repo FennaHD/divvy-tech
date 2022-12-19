@@ -15,19 +15,20 @@ import com.divvy.navigation.Screens
 import com.divvy.viewModel.BusinessViewModel
 
 @Composable
-fun OverviewScreen(navController: NavController, vm: BusinessViewModel) {
+fun OverviewScreen(navController: NavController, viewModel: BusinessViewModel) {
 
     @Composable
     fun BusinessHolder(business: Business) {
         business.name?.let {
             ClickableText(text = AnnotatedString(it)) {
+                viewModel.selectedBusiness.value = business
                 navController.navigate(route = Screens.Details.route)
             }
         }
     }
     Column {
         TopAppBar(title = { Text(text = "Businesses")})
-        val businesses = vm.businesses.observeAsState()
+        val businesses = viewModel.businesses.observeAsState()
         LazyColumn {
             items(
                 items = businesses.value ?: listOf(),

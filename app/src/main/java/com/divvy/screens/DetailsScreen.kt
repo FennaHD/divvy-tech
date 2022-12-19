@@ -8,25 +8,35 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
+import com.divvy.R
 import com.divvy.viewModel.BusinessViewModel
 import com.jaikeerthick.composable_graphs.composables.LineGraph
-import com.jaikeerthick.composable_graphs.data.GraphData
+import com.jaikeerthick.composable_graphs.style.LineGraphStyle
+import com.jaikeerthick.composable_graphs.style.LinearGraphVisibility
 
 @Composable
 fun DetailsScreen(navController: NavController, viewModel: BusinessViewModel) {
     Column {
+        val business = viewModel.selectedBusiness.observeAsState()
         TopAppBar(
-            title = { Text(text = "Businesses")},
+            title = { Text(text = business.value?.name.orEmpty()) },
             navigationIcon = {IconButton(onClick = { navController.popBackStack() }) {
             Icon(Icons.Filled.ArrowBack, null)
             }})
         Text("Details Screen")
         LineGraph(
-            xAxisData = listOf("Sun", "Mon", "Tues", "Wed", "Thur", "Fri", "Sat").map {
-                GraphData.String(it)
-            }, // xAxisData : List<GraphData>, and GraphData accepts both Number and String types
-            yAxisData = listOf(200, 40, 60, 450, 700, 30, 50),
+            xAxisData = business.value?.getXAxis() ?: emptyList(),
+            yAxisData = business.value?.getYAxis() ?: emptyList(),
+            header = { Text(stringResource(R.string.revenue_chart_header)) },
+            style = LineGraphStyle(
+                visibility = LinearGraphVisibility(
+                    isHeaderVisible = true,
+                    isCrossHairVisible = true
+                )
+            )
         )
     }
 }
