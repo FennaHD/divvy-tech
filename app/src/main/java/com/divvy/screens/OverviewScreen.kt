@@ -46,7 +46,7 @@ fun OverviewScreen(navController: NavController, viewModel: BusinessViewModel) {
     }
 
     Column {
-        TopAppBar(title = { Text(stringResource(R.string.overview_screen_title))})
+        TopAppBar(title = { Text(stringResource(R.string.overview_screen_title)) })
         val businesses = viewModel.businesses.observeAsState()
         LazyColumn(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
             items(
