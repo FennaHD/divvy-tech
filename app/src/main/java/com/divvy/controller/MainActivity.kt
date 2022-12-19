@@ -15,7 +15,7 @@ import com.divvy.viewModel.BusinessViewModel
 
 class MainActivity : ComponentActivity() {
 
-    val viewModel by lazy {
+    private val viewModel by lazy {
         BusinessViewModel(Geocoder(this))
     }
 
@@ -29,8 +29,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    val navController = rememberNavController()
-                    NavGraph(navController = navController, viewModel = viewModel)
+                    NavGraph(navController = rememberNavController(), viewModel = viewModel)
                 }
             }
         }
