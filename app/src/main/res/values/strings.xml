@@ -2,5 +2,5 @@
     <string name="app_name">DivvyTech</string>
 
     <!-- Details Screen -->
-    <string name="revenue_chart_header">Revenue</string>
+    <string name="revenue_chart_header">6-Month Revenue</string>
 </resources>

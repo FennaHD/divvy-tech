@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.divvy.domain.Business
+import com.divvy.domain.RevenueDisplay
 import com.divvy.service.BusinessRepository
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.launch
@@ -13,6 +14,7 @@ class BusinessViewModel(private val geocoder: Geocoder): ViewModel() {
 
     val businesses = MutableLiveData<List<Business>>(null)
     val selectedBusiness = MutableLiveData<Business>(null)
+    val selectedRevenue = MutableLiveData<RevenueDisplay>(null)
 
     fun retrieveBusinesses() {
         viewModelScope.launch {
