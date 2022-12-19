@@ -31,29 +31,31 @@ fun DetailsScreen(navController: NavController, viewModel: BusinessViewModel) {
     Column {
         val business = viewModel.selectedBusiness.observeAsState()
         val distanceToUser = business.value?.location?.distanceToUser?.observeAsState()
+
         TopAppBar(
             title = { Text(text = business.value?.name.orEmpty()) },
-            navigationIcon = {IconButton(onClick = { navController.popBackStack() }) {
-                Icon(Icons.Filled.ArrowBack, null)
+            navigationIcon = {
+                IconButton(onClick = { navController.popBackStack() }) {
+                    Icon(Icons.Filled.ArrowBack, null)
             }})
+
         Column(modifier = Modifier.padding(16.dp)) {
+
             Text(business.value?.location?.address.orEmpty())
             Text(business.value?.location?.city.orEmpty())
             Text(business.value?.location?.country.orEmpty(), modifier = Modifier.padding(bottom = 8.dp))
-            Text(distanceToUser?.value?.getMilesText().orEmpty(), style = TextStyle(fontSize = 12.sp))
+            Text(distanceToUser?.value?.getMilesText(stringResource(R.string.distance_format)).orEmpty(), style = TextStyle(fontSize = 12.sp))
+
             LineGraph(
                 xAxisData = business.value?.getXAxis() ?: emptyList(),
                 yAxisData = business.value?.getYAxis() ?: emptyList(),
                 onPointClicked = {
-                    val lele = it.second
-                    val lolo = it.second as? Double
                     viewModel.selectedRevenue.value = RevenueDisplay(it.second as? Double)
                 },
                 header = {
-                    val selectedRevenue = viewModel.selectedRevenue.observeAsState()
                     Column(modifier = Modifier.padding(vertical = 16.dp)) {
                         Text(stringResource(R.string.revenue_chart_header), style = TextStyle(fontSize = 24.sp))
-                        val valele = selectedRevenue.value
+                        val selectedRevenue = viewModel.selectedRevenue.observeAsState()
                         Text(selectedRevenue.value?.getFormatted().orEmpty())
                     }
                 },

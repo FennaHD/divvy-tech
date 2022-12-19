@@ -10,6 +10,9 @@ import com.divvy.service.BusinessRepository
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.launch
 
+private const val SOUTH_JORDAN_LAT = 40.550906
+private const val SOUTH_JORDAN_LNG = -111.943054
+
 class BusinessViewModel(private val geocoder: Geocoder): ViewModel() {
 
     val businesses = MutableLiveData<List<Business>>(null)
@@ -27,8 +30,9 @@ class BusinessViewModel(private val geocoder: Geocoder): ViewModel() {
     fun retrieveLocation(business: Business) {
         // We really only need to set it once, no need to do it everytime we go to details
         if (business.location?.distanceToUser?.value == null) {
-            val user = LatLng(40.550906, -111.943054)
+            val user = LatLng(SOUTH_JORDAN_LAT, SOUTH_JORDAN_LNG)
             business.location?.fullAddress()?.let {
+                // This method can return several results, but we limit it to 1 and retrieve it if it exists
                 geocoder.getFromLocationName(it, 1).getOrNull(0)?.let {
                     business.location.setDistanceToUser(user, LatLng(it.latitude, it.longitude))
                 }

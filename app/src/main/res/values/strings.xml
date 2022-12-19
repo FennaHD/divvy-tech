@@ -3,4 +3,8 @@
 
     <!-- Details Screen -->
     <string name="revenue_chart_header">6-Month Revenue</string>
+    <string name="distance_format">%d miles away</string>
+
+    <!-- Overview Screen -->
+    <string name="overview_screen_title">Businesses</string>
 </resources>

@@ -13,11 +13,13 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.divvy.R
 import com.divvy.domain.Business
 import com.divvy.navigation.Screens
 import com.divvy.ui.theme.DARK_WHITE
@@ -44,7 +46,7 @@ fun OverviewScreen(navController: NavController, viewModel: BusinessViewModel) {
     }
 
     Column {
-        TopAppBar(title = { Text(text = "Businesses")})
+        TopAppBar(title = { Text(stringResource(R.string.overview_screen_title))})
         val businesses = viewModel.businesses.observeAsState()
         LazyColumn(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
             items(

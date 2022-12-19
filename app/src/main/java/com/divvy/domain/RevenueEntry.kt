@@ -16,7 +16,6 @@ data class RevenueEntry(
         formatter.format(it)
     }
 
-    // TODO add documentation that we use `Date` instead of `LocalDate` to ensure compatibility if necessary
     private fun getDate() = date?.let {
         val formatter = SimpleDateFormat(INCOMING_DATE_FORMAT, Locale.US)
         formatter.parse(it)
