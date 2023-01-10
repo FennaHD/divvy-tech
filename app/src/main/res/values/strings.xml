@@ -7,4 +7,10 @@
 
     <!-- Overview Screen -->
     <string name="overview_screen_title">Businesses</string>
+    <string name="business_revenue_format">(%s)</string>
+    <string name="revenue_drop_down">Revenue</string>
+    <string name="alphabetic_drop_down">A-Z</string>
+    <string name="sort_dialog_title">Select Month Range(1–6 months back)</string>
+    <string name="ok">OK</string>
+    <string name="sort_dropdown_title">Sort by</string>
 </resources>

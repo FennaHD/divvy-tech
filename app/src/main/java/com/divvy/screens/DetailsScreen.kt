@@ -2,13 +2,10 @@ package com.divvy.screens
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -31,7 +28,6 @@ fun DetailsScreen(navController: NavController, viewModel: BusinessViewModel) {
     Column {
         val business = viewModel.selectedBusiness.observeAsState()
         val distanceToUser = business.value?.location?.distanceToUser?.observeAsState()
-
         TopAppBar(
             title = { Text(text = business.value?.name.orEmpty()) },
             navigationIcon = {
@@ -45,7 +41,6 @@ fun DetailsScreen(navController: NavController, viewModel: BusinessViewModel) {
             Text(business.value?.location?.city.orEmpty())
             Text(business.value?.location?.country.orEmpty(), modifier = Modifier.padding(bottom = 8.dp))
             Text(distanceToUser?.value?.getMilesText(stringResource(R.string.distance_format)).orEmpty(), style = TextStyle(fontSize = 12.sp))
-
             LineGraph(
                 xAxisData = business.value?.getXAxis() ?: emptyList(),
                 yAxisData = business.value?.getYAxis() ?: emptyList(),

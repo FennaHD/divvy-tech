@@ -23,6 +23,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             viewModel.retrieveBusinesses()
+            viewModel.businesses.observe(this) {
+                viewModel.setTotalRevenue(viewModel.selectedRange.value)
+            }
             DivvyTechTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(

@@ -1,6 +1,7 @@
 package com.divvy.viewModel
 
 import android.location.Geocoder
+import androidx.core.util.toRange
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -19,10 +20,18 @@ class BusinessViewModel(private val geocoder: Geocoder): ViewModel() {
     val selectedBusiness = MutableLiveData<Business>(null)
     val selectedRevenue = MutableLiveData<RevenueDisplay>(null)
 
+    val selectedRange = MutableLiveData(1f..6f)
+
     fun retrieveBusinesses() {
         viewModelScope.launch {
             BusinessRepository().client.getBusinesses()?.let {
-                businesses.value = it
+                businesses.value = it.also {
+                    it.forEach {
+                        // Compose doesn't play well with live data, so we have to make sure to set it manually
+                        if (it.totalRevenue == null)
+                            it.totalRevenue = MutableLiveData(null)
+                    }
+                }
             }
         }
     }
@@ -38,5 +47,29 @@ class BusinessViewModel(private val geocoder: Geocoder): ViewModel() {
                 }
             }
         }
+    }
+
+    //
+    fun setTotalRevenue(range: ClosedFloatingPointRange<Float>?) {
+        businesses.value?.forEach { business ->
+            business.totalRevenue.value = range?.let {
+                // We gotta offset by 1 since the range is 1..6, but indexes are 0..5
+                business.revenue?.slice(IntRange(it.start.toInt()-1, it.endInclusive.toInt()-1))?.map { it.value }?.reduce { revenue1, revenue2 ->
+                    revenue1?.let {
+                        revenue2?.let {
+                            revenue1 + revenue2
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun sortBusinessesAlphabetically() {
+        businesses.value = businesses.value?.sortedBy { it.name }
+    }
+
+    fun sortBusinessesByRevenue() {
+        businesses.value = businesses.value?.sortedByDescending { it.totalRevenue.value }
     }
 }
